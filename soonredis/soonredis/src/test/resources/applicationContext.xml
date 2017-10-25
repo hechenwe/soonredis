@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd   
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<context:component-scan base-package="com.sooncode">
+	</context:component-scan>
+ 
+
+	<bean id="jedisPoolConfigParameter" class="com.sooncode.soonredis.service.JedisPoolConfigParameter">
+		<property name="host" value="127.0.0.1" />
+		<property name="port" value="6379" />
+		<!-- <property name="password" value="123456" /> -->
+		<property name="blockWhenExhausted" value="true" />
+		<property name="jmxEnabled" value="true" />
+		
+		<property name="maxIdle" value="4" />
+		<property name="maxTotal" value="8" />
+		<property name="maxWaitMillis" value="3000" />
+		<property name="testOnBorrow" value="true" />
+		<property name="timeout" value="3000" />
+		 
+	</bean>
+	
+	<bean id="soonJedis" class="com.sooncode.soonredis.service.SoonJedis"
+		abstract="false" lazy-init="false" autowire="default">
+		<property name="jedisPoolConfigParameter">
+			<ref bean="jedisPoolConfigParameter" />
+		</property>
+	</bean>
+	
+	<bean id="soonRedisDao" class="com.sooncode.soonredis.service.SoonRedisDao"
+		abstract="false" lazy-init="false" autowire="default">
+		<property name="soonJedis">
+			<ref bean="soonJedis" />
+		</property>
+	</bean>
+ 
+</beans>
