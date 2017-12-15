@@ -12,7 +12,7 @@
  
 
 	<bean id="jedisPoolConfigParameter" class="com.sooncode.soonredis.service.JedisPoolConfigParameter">
-		<property name="host" value="127.0.0.1" />
+		<property name="host" value="222.129.33.193" />
 		<property name="port" value="6379" />
 		<!-- <property name="password" value="123456" /> -->
 		<property name="blockWhenExhausted" value="true" />

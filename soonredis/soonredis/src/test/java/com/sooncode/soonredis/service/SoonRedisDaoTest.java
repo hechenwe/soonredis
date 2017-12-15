@@ -1,5 +1,9 @@
 package com.sooncode.soonredis.service;
 
+ 
+
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,25 +24,36 @@ public class SoonRedisDaoTest {
 	@Test
 	public void set (){
 		String key = soonRedisDao.set("A", "87879");
-		System.out.println("-----------------------:"+key);
-	}
-	@Test
-	public void append (){
-		Long n = soonRedisDao.append("A", " hello  redis");
-		System.out.println("-----------------------:"+n);
+		assertEquals("OK", key);//Junit 判断是否相等
+		soonRedisDao.del("A");
+		
 	}
 	@Test
 	public void get (){
-		String value = soonRedisDao.get("id");
-		System.out.println("-----------------------:"+value);
+		soonRedisDao.set("A", "87879");
+		String value = soonRedisDao.get("A");
+		soonRedisDao.del("A");
+		assertEquals("87879",value);
+		 
 	}
 	@Test
+	public void append (){
+		soonRedisDao.set("A", "87879");
+		long n = soonRedisDao.append("A", "14690");
+		System.out.println("SoonRedisDaoTest.append()"+n);
+		soonRedisDao.del("A");
+		assertEquals(10L, n);
+	}
+	
+	@Test
 	public void del (){
-		Long n  = soonRedisDao.del("A");
-		System.out.println("-----------------------:"+n);
+		soonRedisDao.set("A", "87879");
+		long n  = soonRedisDao.del("A");
+		assertEquals(1L,n);
 	}
 	@Test
 	public void incr (){
+		soonRedisDao.set("id", "1");
 		Long n  = soonRedisDao.incr ("id");
 		System.out.println("-----------------------:"+n);
 	}
